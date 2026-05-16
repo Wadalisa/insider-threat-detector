@@ -1,0 +1,9 @@
+{
+  "best_model_name": "RF + LR",
+  "model_type": "VotingClassifier",
+  "f1": 0.7113,
+  "recall": 0.7987,
+  "precision": 0.6411,
+  "accuracy": 0.9651,
+  "auc": 0.9625
+}
