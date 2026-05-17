@@ -2,6 +2,12 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 import sys, os
+
+_banner_path = os.path.join(os.path.dirname(__file__), "../asset/", "investigation.png")
+if os.path.exists(_banner_path):
+    st.image(_banner_path, use_container_width=True)
+else: "not found"
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from shared import (load_artifacts, SYNTHETIC_PROFILES, page_header,
                     risk_color, risk_label, encode_profile, score_profile,
@@ -14,8 +20,6 @@ campus_options  = list(encoders["employee_campus"].classes_)
 pos_options     = list(encoders["employee_position"].classes_)
 country_options = list(encoders["employee_origin_country"].classes_)
 
-page_header("🕵️ Employee Investigation",
-            "Detailed behavioural analysis and risk assessment per employee")
 
 # ── Profile selector ───────────────────────────────────────────────────────────
 st.markdown("### Select or Build a Profile")

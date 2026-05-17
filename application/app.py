@@ -12,14 +12,40 @@ st.set_page_config(
 
 st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
 
-# ── Pages ──────────────────────────────────────────────────────────────────────
-dashboard    = st.Page("pages/01_dashboard.py",    title="SOC Dashboard")
-investigation= st.Page("pages/02_investigation.py",title="Investigation")
-analytics    = st.Page("pages/03_analytics.py",    title="Analytics")
-live         = st.Page("pages/04_live.py",         title="Live Monitoring")
-reports      = st.Page("pages/05_reports.py",      title="Reports")
+# Hide default nav
+st.markdown("""
+<style>
+[data-testid="stSidebarNav"] {
+    display: none !important;
+}
+</style>
+""", unsafe_allow_html=True)
 
-pg = st.navigation([dashboard, investigation, analytics, live, reports])
+#----------navigation bar--------------------------------------------------------------------------
+dashboard     = st.Page("pages/01_dashboard.py",    title="SOC Dashboard",  icon="📊")
+investigation = st.Page("pages/02_investigation.py",title="Investigation",   icon="🕵️")
+analytics     = st.Page("pages/03_analytics.py",    title="Analytics",       icon="📈")
+live          = st.Page("pages/04_live.py",         title="Live Monitoring", icon="📡")
+reports       = st.Page("pages/05_reports.py",      title="Reports",         icon="📋")
+
+pg = st.navigation([dashboard, investigation, analytics, live, reports], position="hidden")
+
+# ---------- custom nav ----------
+def nav_button(label, icon_file, page_key):
+    icon_path = os.path.join(os.path.dirname(__file__), "asset", icon_file)
+    col1, col2 = st.sidebar.columns([1, 3])
+    with col1:
+        if os.path.exists(icon_path):
+            st.image(icon_path, use_container_width=True)
+    with col2:
+        return st.button(label, key=page_key, use_container_width=True)
+
+if nav_button("SOC Dashboard",  "tab_dashboard.png",    "nav_dash"):  st.switch_page("pages/01_dashboard.py")
+if nav_button("Investigation",  "tab_investigation.png","nav_inv"):   st.switch_page("pages/02_investigation.py")
+if nav_button("Analytics",      "tab_batch.png",        "nav_ana"):   st.switch_page("pages/03_analytics.py")
+if nav_button("Live Monitoring","tab_monitoring.png",   "nav_live"):  st.switch_page("pages/04_live.py")
+if nav_button("Reports",        "tab_report.png",       "nav_rep"):   st.switch_page("pages/05_reports.py")
+
 
 # ── Shared sidebar ─────────────────────────────────────────────────────────────
 sidebar_logo()

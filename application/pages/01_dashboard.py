@@ -4,6 +4,12 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 import sys, os
+
+_banner_path = os.path.join(os.path.dirname(__file__), "../asset/", "dashboard.png")
+if os.path.exists(_banner_path):
+    st.image(_banner_path, use_container_width=True)
+else: "not found"
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from shared import (load_artifacts, load_test_predictions, page_header,
                     risk_color, risk_label, PLOTLY_LAYOUT)
@@ -21,12 +27,6 @@ n_medium = int(((test_probs > 0.30) & (test_probs <= 0.60)).sum())
 n_low    = int((test_probs <= 0.30).sum())
 det_rate = n_mal / n_total * 100
 
-_banner_path = os.path.join(os.path.dirname(__file__), "./icons/", ".png")
-if os.path.exists(_banner_path):
-    st.image(_banner_path, use_container_width=True)
-else:
-    page_header("📊 SOC Dashboard",
-                "Real-time overview of insider threats and security posture")
 
 # ── KPI row ────────────────────────────────────────────────────────────────────
 k1, k2, k3, k4, k5 = st.columns(5)

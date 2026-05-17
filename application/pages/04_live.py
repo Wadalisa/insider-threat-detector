@@ -3,6 +3,12 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 import time, random, sys, os
+
+_banner_path = os.path.join(os.path.dirname(__file__), "../asset/", "live.png")
+if os.path.exists(_banner_path):
+    st.image(_banner_path, use_container_width=True)
+else: "not found"
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from shared import (load_artifacts, load_test_predictions, page_header,
                     risk_color, risk_label, PLOTLY_LAYOUT, SYNTHETIC_PROFILES,
@@ -12,8 +18,6 @@ model, scaler, encoders, feature_names, splits = load_artifacts()
 test_df, test_probs, test_preds, y_true = load_test_predictions(
     model, encoders, feature_names, splits)
 
-page_header("📡 Live Monitoring",
-            "Real-time stream of user activities and security events")
 
 # ── Live indicator + controls ──────────────────────────────────────────────────
 hdr_l, hdr_r = st.columns([3, 1])

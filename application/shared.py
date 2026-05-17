@@ -22,6 +22,29 @@ GLOBAL_CSS = """
 
 .stApp { background-color: #0B1120; }
 
+/* Remove white top bar */
+[data-testid="stAppViewContainer"] > .main > .block-container {
+    padding-top: 0rem !important;
+}
+[data-testid="stHeader"] {
+    display: none !important;
+}
+
+/* Remove all top padding/margin so banner sits flush */
+[data-testid="stAppViewContainer"] > .main > .block-container {
+    padding-top: 0rem !important;
+    margin-top: 0rem !important;
+}
+[data-testid="stHeader"] {
+    display: none !important;
+}
+[data-testid="stMainBlockContainer"] {
+    padding-top: 0rem !important;
+}
+img {
+    display: block;
+}
+
 [data-testid="metric-container"] {
     background-color: #111827;
     border: 1px solid #1F2937;
@@ -89,6 +112,7 @@ h1, h2, h3 { color: #E5E7EB; }
     font-size: 12px;
     font-weight: 700;
 }
+
 </style>
 """
 
@@ -311,7 +335,7 @@ def score_profile(profile, model, encoders, feature_names):
     return pred, prob
 
 def sidebar_logo():
-    logo_path = os.path.join(APP_DIR, "logo.png")
+    logo_path = os.path.join(APP_DIR, "asset", "logo.png")
     if os.path.exists(logo_path):
         st.sidebar.image(logo_path, use_container_width=True)
     else:
@@ -349,12 +373,18 @@ def inject_tab_icons(tab_files):
     if icon_css:
         st.markdown(f"<style>{icon_css}</style>", unsafe_allow_html=True)
 
-def page_header(title, subtitle=""):
-    st.markdown(f"""
-    <div style="padding:20px 24px; border-radius:14px;
-                background:linear-gradient(90deg,#0F172A,#111827);
-                border:1px solid #1F2937; margin-bottom:20px;">
-        <h1 style="color:white; margin:0; font-family:Rajdhani; font-size:2rem;">{title}</h1>
-        {"<p style='color:#9CA3AF; margin:4px 0 0 0;'>"+subtitle+"</p>" if subtitle else ""}
-    </div>
-    """, unsafe_allow_html=True)
+def page_header(title="", subtitle=""):
+    # Banner image — shown on all pages
+    _banner_path = os.path.join(APP_DIR, "asset", "banner.png")
+    if os.path.exists(_banner_path):
+        st.image(_banner_path, use_container_width=True)
+    
+    # Optional text header below the banner
+    if title:
+        st.markdown(f"""
+        <div style="padding:12px 24px; margin-bottom:20px;">
+            <h1 style="color:white; margin:0; font-family:Rajdhani; font-size:2rem;">{title}</h1>
+            {"<p style='color:#9CA3AF; margin:4px 0 0 0;'>"+subtitle+"</p>" if subtitle else ""}
+        </div>
+        """, unsafe_allow_html=True)
+

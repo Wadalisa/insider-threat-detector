@@ -4,6 +4,12 @@ import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
 import sys, os
+
+_banner_path = os.path.join(os.path.dirname(__file__), "../asset/", "reports.png")
+if os.path.exists(_banner_path):
+    st.image(_banner_path, use_container_width=True)
+else: "not found"
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from shared import (load_artifacts, load_test_predictions, page_header,
                     risk_color, PLOTLY_LAYOUT, SYNTHETIC_PROFILES, score_profile)
@@ -19,8 +25,6 @@ n_high   = int(((test_probs > 0.60) & (test_probs <= 0.80)).sum())
 det_rate = n_mal / n_total * 100
 avg_risk = test_probs.mean() * 100
 
-page_header("📋 Executive Summary Report",
-            "Overview of security posture and insider threat landscape")
 
 # ── Period selector + download ─────────────────────────────────────────────────
 top_l, top_r = st.columns([3, 1])

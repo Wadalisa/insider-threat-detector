@@ -4,6 +4,12 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 import sys, os
+
+_banner_path = os.path.join(os.path.dirname(__file__), "../asset/", "batch.png")
+if os.path.exists(_banner_path):
+    st.image(_banner_path, use_container_width=True)
+else: "not found"
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from shared import (load_artifacts, load_test_predictions, page_header, PLOTLY_LAYOUT)
 
@@ -11,8 +17,6 @@ model, scaler, encoders, feature_names, splits = load_artifacts()
 test_df, test_probs, test_preds, y_true = load_test_predictions(
     model, encoders, feature_names, splits)
 
-page_header("📈 Analytics & Threat Visualization",
-            "Analyse patterns, trends and behavioural insights across the test population")
 
 # ── Row 1: three summary charts ────────────────────────────────────────────────
 r1a, r1b, r1c = st.columns(3)
